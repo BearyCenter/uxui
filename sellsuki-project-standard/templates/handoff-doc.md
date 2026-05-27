@@ -47,7 +47,8 @@
 
 # Section B — Design
 
-**Design system used:** `DS 1.0 / DS 2.0 (variant) / Client stack`
+**Stack used:** `Client's existing stack / Modern default (Next.js + TS + Tailwind + shadcn) / Custom modern`
+**Stack details:** `[framework + lib + key deps — short summary]`
 **Rationale:** `[from research-plan]`
 
 **Style tokens:**
@@ -90,7 +91,7 @@
 **Stack:**
 - Framework: `[Next.js / Vite / Vue / ...]`
 - Language: `[TypeScript / JavaScript]`
-- Component library: `[DS1 / DS2 / client lib]`
+- Component library: `[shadcn/ui / client's lib / Radix / PrimeVue / other]`
 - State management: `[useState / Redux / Pinia / ...]`
 - Routing: `[Next.js / React Router / ...]`
 - Build tool: `[Vite / Webpack / ...]`

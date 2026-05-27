@@ -17,7 +17,7 @@
 | Iteration model ต่างกัน | Product = loop ต่อเนื่อง; Project = linear, จบที่ handoff |
 | Deploy = first-class | Product flow ฝัง deploy ใน vibe code; Project ต้อง explicit เพราะลูกค้าใช้ staging URL |
 | Variant thinking | Product สร้าง 1 solution; Project สร้าง 2+ variants ให้ลูกค้าเลือก |
-| Stack choice กว้างกว่า | Product ผูก DS1/DS2; Project อาจใช้ stack ของลูกค้า |
+| Stack choice กว้างกว่า | Product ผูก Sellsuki DS 1.0/2.0; Project ใช้ stack ของลูกค้า หรือ modern framework choice (ห้ามใช้ DS) |
 | Handoff ≠ ship | Product จบที่ ship + measure; Project จบที่ส่งงานให้ลูกค้าหรือทีมต่อไป |
 | Future BE/QA hook | Project มีแผนเพิ่ม BE/QA phase — design ต้อง extension-ready |
 
@@ -40,7 +40,7 @@
 **Cross-reference** ที่จงใจ:
 - DESIGN docs อ้างถึงกันได้
 - Persona library duplicate แต่ customize (project user = client's user, ไม่ใช่ Sellsuki merchant)
-- DS guide เหมือนกัน, แต่ project มี option ใช้ client stack
+- DS guide ไม่ shared — project ใช้ stack ลูกค้า/modern choice, ไม่ใช่ DS ของ Sellsuki ที่ product ใช้
 
 ---
 
@@ -161,7 +161,7 @@ Project skill **ไม่มี** stage แยก เพราะ:
 | Deploy เป็น stage แยก | One more gate | Visibility, client gets shareable URL |
 | UAT round budget | Less flexibility | Scope discipline, finite project |
 | Hard stop ที่ handoff | ไม่มี post-launch measure | Project economics ชัด, future phase plug-in ได้ |
-| Stack flexibility (ไม่บังคับ DS) | Less DS adoption ใน project | ลูกค้าได้สิ่งที่ใช้ได้กับ infra ของเขา |
+| Stack flexibility (ใช้ stack client/modern choice แทน DS) | ไม่ได้บังคับใช้ Sellsuki DS — งาน Sellsuki ไม่ propagate cross-portfolio | ลูกค้าได้ stack ที่ตรง infra ของเขา, maintain ต่อได้ |
 
 ---
 
@@ -173,13 +173,13 @@ Project skill **ไม่มี** stage แยก เพราะ:
 | มี Improvement Log template | UAT cycles ต้องการ structured tracker — ลูกค้า feedback หลาย channel |
 | Handoff doc รวม Design + Code + Access | One artifact ให้ลูกค้า, ลด follow-up |
 | Persona library duplicate (ไม่ shared) | Persona ของ project = client's end users — context ต่างจาก product |
-| DS selection guide reference ของ product | DS เหมือนกัน, ไม่ duplicate logic |
+| Tech stack guide แยกจาก product skill (ไม่ shared/reference) | Project ใช้ stack client/modern choice — concept คนละชุดกับ DS ที่ product ใช้ — ต้อง self-contained |
 
 ---
 
 ## 11. Open questions (iterate)
 
-- [ ] Stack ของ client ที่นอก DS — มี allowlist ไหม? (เช่น Tailwind OK, custom CSS framework ไม่ OK)
+- [ ] Stack guidelines — modern default ของเรา (Next.js + TS + Tailwind + shadcn) ครอบคลุมเพียงพอไหม? เพิ่ม allowlist สำหรับ outlier (เช่น WordPress, vanilla PHP)?
 - [ ] UAT budget default ใครเป็นคนกำหนด — PM หรือ Designer? — ตอนนี้ default Designer propose, PM confirm
 - [ ] Deploy ไป client infra (vs Sellsuki cloud) — ต้องการ runbook ไหม? — ตอนนี้ใน Stage 4 มี checklist generic
 - [ ] BE/QA phase จะ trigger ภายในไฟล์เดียวกับ skill นี้ หรือเป็น skill ใหม่? — ตอนนี้ assume แยก skill เมื่อ phase พร้อม
@@ -198,10 +198,10 @@ Project skill **ไม่มี** stage แยก เพราะ:
 | Ambiguous (เช่น "design ตัวนี้") | ถามว่า "งานนี้มาจาก Jira หรือ PM brief?" |
 
 **Cross-reference ที่ allowed:**
-- Project skill อ้าง `references/ds-selection-guide.md` จาก product (DS เหมือนกัน) — แต่ในตัวอย่างนี้ duplicate เพื่อ self-contained
+- Project skill **ไม่อ้าง** DS guides ของ product — Project ใช้ client stack หรือ modern framework choice, ไม่ใช่ DS
 - Persona library: ต่างกัน — Project = client's user, Product = Sellsuki merchant
 
-ถ้า refactor ในอนาคต: shared library อาจมาอยู่ใน `common/` แล้วทั้งสอง skill อ้างถึงได้
+ทั้ง 2 skills self-contained โดยตั้งใจ เพื่อ trigger + workflow ที่ต่างกันโดยสิ้นเชิง
 
 ---
 

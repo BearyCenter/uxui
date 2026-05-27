@@ -109,18 +109,24 @@
 
 ## Section 6 — Tech Stack (locked here)
 
-**Choice:** `DS1 / DS2 (variant) / client stack`
+**Choice:** `Client's existing stack / Modern default (Next.js + TS + Tailwind + shadcn) / Custom modern`
 
 **Rationale:**
 `[1 paragraph — why this stack, why not the alternatives — อ้าง references/tech-stack-guide.md]`
 
-**Component library:**
-- DS1: Sellsuki DS components
-- DS2: ssk-* with [brand] tokens
-- Client: `[describe]`
+**Stack details:**
+- Framework: `[e.g., Next.js 14 App Router]`
+- Language: `[TypeScript / JavaScript]`
+- Styling: `[Tailwind / CSS modules / other]`
+- Component library: `[shadcn/ui / client's lib / Headless UI / other]`
+- Forms: `[react-hook-form + Zod / other]`
+- State: `[useState / Zustand / Redux / other]`
+- Data fetching: `[TanStack Query / native fetch / SWR / other]`
 
-**Build tool / framework:**
-`[Next.js / Vite / CRA / Vue / etc.]`
+> ⚠ ห้ามใช้ Sellsuki DS 1.0 / DS 2.0 ใน project track — ใช้ใน `sellsuki-product-standard` skill เท่านั้น
+
+**Build tool:**
+`[Next.js / Vite / Nuxt / Astro / other]`
 
 ---
 

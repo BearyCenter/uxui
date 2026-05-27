@@ -128,12 +128,17 @@
 ## Section 5 — Component Inventory
 
 > Used by Stage 3 vibe code prompt
+>
+> ตัวอย่างด้านล่างเป็น modern default stack (shadcn/ui) — ปรับตาม stack ที่ lock ใน Stage 1
+> - **Client stack:** ใช้ชื่อ component ของ client's library (เช่น `<MyButton>`, `<ClientInput>`)
+> - **Modern default:** shadcn (`<Button>`, `<Input>`, `<Table>`) หรือ Radix primitives
+> - **Custom modern:** ตาม library ที่เลือก (PrimeVue, Headless UI, etc.)
 
 | Component | Stack source | Variant / Props | Where used | Count |
 |---|---|---|---|---|
-| `ssk-button` (DS2) | DS2 | primary | every screen | 12 |
-| `ssk-input` (DS2) | DS2 | with validation | forms | 8 |
-| `ssk-table` (DS2) | DS2 | sortable | list view | 1 |
+| `<Button>` | shadcn/ui | variant=primary | every screen | 12 |
+| `<Input>` | shadcn/ui | with validation | forms | 8 |
+| `<DataTable>` | shadcn/ui + TanStack Table | sortable | list view | 1 |
 | | | | | |
 
 ---

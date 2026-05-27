@@ -41,7 +41,7 @@
 | Identify client context | Industry, brand, current state | Inference + targeted question if missing |
 | Detect tech hints | Stack mentioned? Existing infrastructure? | Scan for tech keywords |
 | Classify size | S / M / L / Enterprise | `references/project-sizing.md` |
-| Detect stack preference | DS1 / DS2 / client stack | `references/tech-stack-guide.md` |
+| Detect stack preference | Client's existing stack OR modern default OR custom | `references/tech-stack-guide.md` |
 | Draft PM Card | กรอก `templates/project-card.md` | Auto fill |
 | Plan milestones | Stage timing + client checkpoints | Based on size + urgency |
 | Present plan | Plan summary (8-12 lines) | Plan summary template ใน SKILL.md |
@@ -101,7 +101,7 @@
 ```
 📋 Project: Acme Corp — "Order management portal for B2B partners"
 🏷  Tier: M / 2.5 weeks / first time client
-🛠  Stack hint: ลูกค้ามี existing React app → suggest React + DS2 (or client's component lib if exists)
+🛠  Stack hint: ลูกค้ามี existing React app → suggest using their stack (read their codebase Stage 1)
 🎯 Objective: B2B partners ของ Acme สามารถดู order status + เปิด case ผ่าน self-service portal
 
 📦 Brief source: PM forward email + meeting recording (transcribed)

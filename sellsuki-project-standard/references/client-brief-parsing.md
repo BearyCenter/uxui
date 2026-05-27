@@ -117,7 +117,8 @@ Section 3:
     - Hosting (TBD — needs Stage 4)
 
 Section 4 (to be locked at Stage 1):
-  Stack: React + DS 2.0 likely — confirm at Stage 1
+  Stack: Modern default likely (Next.js + TS + Tailwind + shadcn/ui) — confirm at Stage 1
+         (Acme team busy on BE, no client stack to match → greenfield modern choice)
   Deploy target: TBD (likely Vercel staging, client infra later)
 
 Section 7 (Open questions for PM):

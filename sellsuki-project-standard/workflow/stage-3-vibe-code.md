@@ -20,9 +20,11 @@
 
 - `vibe-design-spec.md` (final)
 - Picked variant artifacts
-- Stack: DS1 / DS2 (brand variant) / client stack
+- Stack: Client's existing / Modern default / Custom modern (locked at Stage 1)
 - Repo location
 - API contracts (ถ้ามี — หรือใช้ mock)
+
+> ⚠ Project skill **ห้ามใช้ Sellsuki DS 1.0 / DS 2.0** — ใช้ใน `sellsuki-product-standard` skill เท่านั้น
 
 ---
 
@@ -32,32 +34,37 @@
 
 | Activity | Description |
 |---|---|
-| Repo setup | Create / clone repo, scaffold per stack |
-| Dependency install | Per stack — DS1: React + DS1 pkg / DS2: load ssk-* / client: their setup |
+| Repo setup | Create fresh scaffold OR clone client's existing repo |
+| Dependency install | Per stack — modern default: Next.js + Tailwind + shadcn / Vue: Nuxt + Tailwind / Client stack: their package.json |
 | Env config | API endpoints, env vars, secrets (ใช้ .env.example) |
-| Fill prompt | Use `templates/vibe-code-prompt.md` |
+| Fill prompt | Use `templates/vibe-code-prompt.md` (project version) |
 
 ### 3.2 Generate (component-by-component)
 
-**For DS 1.0:**
-1. Call `Sellsuki Design System:get_brand_rules` (MCP — load via tool_search first)
-2. Call `Sellsuki Design System:get_component` for each component in inventory
-3. Optional: `Sellsuki Design System:generate_page_layout` for scaffold
-4. Generate code per screen
-5. Wire data + state per spec
+**For Client's Existing Stack:**
+1. Read client's component library docs / Storybook (web_fetch ถ้ามี URL)
+2. Read client's existing components (5-10 ตัวเพื่อ pattern match)
+3. Map design spec components → client's components
+4. Generate code per spec following client conventions
+5. Self-audit:
+   - ใช้ token / CSS variables ของ client (no hardcode)
+   - Naming convention match
+   - No unauthorized new dependencies
+   - File structure ตาม client repo
 
-**For DS 2.0:**
-1. Call `Sellsuki Design System3:get_brand_rules` with chosen brand (patona/ccs3/oc2plus)
-2. Call `Sellsuki Design System3:get_component` for ssk-* components
-3. `Sellsuki Design System3:generate_page_layout` for boilerplate
-4. Generate code
-5. Call `Sellsuki Design System3:validate_usage` after each major chunk
+**For Modern Default (Next.js + TS + Tailwind + shadcn):**
+1. Scaffold: `npx create-next-app@latest --typescript --tailwind --app`
+2. Init shadcn: `npx shadcn@latest init`
+3. Generate code per spec using shadcn primitives
+4. Setup folder structure: /app, /components, /components/ui, /lib, /hooks, /mocks
+5. Self-audit: Tailwind tokens only, no inline styles, App Router conventions
 
-**For Client Stack:**
-1. Read client's component library docs / Storybook
-2. Map design spec components → client stack components
-3. Generate code per spec
-4. Self-audit: token usage, naming convention match client codebase
+**For Custom Modern Stack (Nuxt / Astro / SvelteKit / etc.):**
+1. Initialize per framework: `npx nuxi@latest init`, `npm create astro@latest`, etc.
+2. Setup Tailwind หรือ stack-appropriate styling
+3. Install chosen component library
+4. Generate per framework conventions
+5. Self-audit per stack's best practices
 
 ### 3.3 QA per component
 
@@ -72,7 +79,7 @@ After each component:
 | Scenario | Approach |
 |---|---|
 | API ready | Connect with proper error handling |
-| API pending | Mock service (JSON server / msw / fixtures) |
+| API pending | Mock service (msw / JSON fixtures / fetch wrapper) + `// TODO: BE-INTEGRATION` markers |
 | No backend | Static data + clear "// TODO: replace with API call" markers |
 
 ---
@@ -92,7 +99,8 @@ After each component:
 - [ ] Code builds without error
 - [ ] All screens implemented
 - [ ] All 6 states render per screen
-- [ ] DS validation passed (DS2: validate_usage; DS1/client: manual audit)
+- [ ] Token / design variable usage validated (no hardcoded colors, sizes, spacing)
+- [ ] No unauthorized new dependencies (especially when using client stack)
 - [ ] Visual QA passed (vs picked variant)
 - [ ] Behavior QA passed (happy + edge paths)
 - [ ] Accessibility check
@@ -114,7 +122,8 @@ After each component:
 
 ## Common Mistakes
 
-- Vibe code โดยไม่อ่าน DS brand rules / client component docs → hardcode token
+- Vibe code โดยไม่อ่าน client's component docs / framework conventions → naming + pattern ไม่ match codebase
+- ใช้ Sellsuki DS 1.0/2.0 ใน project (ผิด skill — ใช้ `sellsuki-product-standard` สำหรับงาน Sellsuki internal product)
 - Skip QA แต่ละ component → bug สะสม
 - Ignore deviation log → handoff ขาด context
 - Wire data ด้วย hardcoded value แล้วลืมเปลี่ยน
@@ -127,7 +136,7 @@ After each component:
 
 | Role | Responsibility |
 |---|---|
-| Claude (Claude Code or chat) | Generate code, run DS validate, QA |
+| Claude (Claude Code or chat) | Generate code, audit tokens, QA |
 | Level 1 Designer | Direct prompt, review code output, visual QA |
-| Level 2 Lead | Validate stack consistency, approve client stack divergence |
+| Level 2 Lead | Validate stack consistency, approve any dependency additions |
 | Engineer (if exists) | Code review, env setup help |

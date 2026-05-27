@@ -1,124 +1,132 @@
 # Tech Stack Guide — Project
 
-> Decision tree สำหรับเลือก stack ที่ Stage 1 — ใช้ได้กับ Project track (รวม option client stack)
+> Decision tree สำหรับเลือก stack ของ project — ใช้ที่ Stage 1
+>
+> **Important:** Project = **client work**. ห้ามใช้ Sellsuki DS 1.0 / DS 2.0 ใน project skill นี้ — DS เป็นของ Sellsuki internal product เท่านั้น (ดู `sellsuki-product-standard` skill)
+>
+> Project ใช้ stack ของ **ลูกค้า** หรือ **modern stack ที่เหมาะกับงาน**
 
 ---
 
 ## Quick decision tree
 
 ```
-                ┌─ Client มี existing codebase / component lib เป็นของตัวเอง?
-                │       ├─ YES + we must integrate → use CLIENT STACK
-                │       └─ YES but greenfield UI → consider both, default DS
+                ┌─ Client มี existing codebase / component library อยู่แล้ว?
+                │       ├─ YES + งานต้อง integrate → use CLIENT STACK (top priority)
+                │       └─ YES แต่ greenfield UI / แยก app → discuss กับ client
+                │              ├─ Client wants their stack → CLIENT STACK
+                │              └─ Client OK with new stack → NEW STACK
                 │
-                ├─ Client เป็น Sellsuki ecosystem (white-label, partner) ?
-                │       ├─ YES → use DS 2.0 (brand variant per their tier)
-                │       └─ NO ─┐
-                │              │
-                │              ├─ Project lifetime + maintenance owner?
-                │              │       ├─ Sellsuki long-term → DS 2.0 (current standard)
-                │              │       ├─ Client takes over → DS 2.0 OR client stack (their choice)
-                │              │       └─ One-and-done → DS 2.0 (we know it best)
-                │              │
-                │              └─ Default → DS 2.0 with patona brand
+                ├─ ไม่มี existing codebase / greenfield?
+                │       ├─ Client มี framework preference ระบุไว้ → use that
+                │       ├─ Client neutral → pick BEST FIT per project requirement
+                │       └─ Client ขอให้แนะนำ → use DEFAULT stack
+                │
+                └─ ตัดสินใจ stack ต้อง LOCK ที่ Stage 1 — ห้ามเปลี่ยน mid-project
 ```
 
 ---
 
-## Option A — DS 1.0
+## Option A — Client's Existing Stack
 
 **When to use:**
-- Client = Sellsuki internal team extension
-- Continuation of an old DS1-based project
-- Specific request for "match existing Sellsuki product look"
-
-**Stack:** React + Sellsuki DS components
-**MCP:** `Sellsuki Design System` (load via tool_search)
-
-**Key MCP tools:**
-- `get_brand_rules` — call first
-- `get_component` — per component
-- `get_color_palette`, `get_design_tokens`
-- `get_feature_template` — page scaffold with API/state pattern
-- `generate_page_layout`
-
-**Brand:** Sky (single brand)
-
-**Avoid for project work unless:** explicit reason. DS2 is the current standard.
-
----
-
-## Option B — DS 2.0 (Default for project work)
-
-**When to use:**
-- Default choice unless other signal stronger
-- New product/page for any client
-- Multi-framework compatibility needed (ssk-* Lit components)
-
-**Stack:** ssk-* Lit Web Components (React, Vue, Vanilla compatible)
-**MCP:** `Sellsuki Design System3`
-
-**Key MCP tools:**
-- `get_brand_rules` — call with brand= param FIRST
-- `get_component` — per ssk-* component
-- `get_color_palette` — per brand
-- `get_design_tokens` — font-size, spacing, radius, semantic
-- `generate_page_layout` — dashboard / list / detail / settings / landing
-- `generate_form` — form scaffold
-- `validate_usage` — ESSENTIAL after generate
-- `list_icons` — icon catalog
-- `list_country_icons` — country codes
-
-### Brand variants
-
-ต้องเลือก ONE per project:
-
-| Brand | Project context |
-|---|---|
-| **patona** | Default — Sellsuki merchant-facing tone — most client projects |
-| **ccs3** | (call `get_brand_rules` brand=ccs3 to see current applicable scope) |
-| **oc2plus** | (call `get_brand_rules` brand=oc2plus to see current applicable scope) |
-
-> ALWAYS call `get_brand_rules` for the selected brand BEFORE writing code — Claude doesn't memorize brand specifics, and they evolve
-
----
-
-## Option C — Client's Stack
-
-**When to use:**
-- Client has existing codebase ที่งานต้อง integrate
-- Client mandates specific framework / library
-- Client team will maintain long-term and wants their stack
-- Stack of client is mature + standard (React + popular lib, Vue + Vuetify, etc.)
+- Client มี codebase ที่งานต้อง integrate (most common)
+- Client mandate framework / library specific
+- Client team จะ maintain ต่อ + ต้องการ stack ของตัวเอง
 
 **Approach:**
 
-1. **Read their conventions:**
-   - Clone repo if access provided
-   - Read their existing components (top 5-10)
-   - Check ESLint / Prettier / TypeScript config
-   - Observe naming conventions
-   - Note utility/helper functions to reuse
+1. **Read client's conventions ก่อน Stage 3:**
+   - Clone repo ถ้ามี access
+   - Read existing top-level components (5-10 ตัว) เพื่อ pattern matching
+   - Check ESLint / Prettier / TypeScript / build config
+   - Observe naming conventions (camelCase vs kebab vs PascalCase)
+   - Note utility/helper functions ที่ reuse ได้
+   - Identify state management pattern (Redux / Zustand / Context / etc.)
 
-2. **Map design intent → their components:**
-   - Our `ssk-button` → their `<MyButton>`
-   - Our `ssk-input` → their `<Input>` or their form component
-   - Document mapping in `vibe-design-spec.md` Section 5
+2. **Map design intent → client's components:**
+   - Identify equivalent components ใน client's library
+   - Document mapping ใน `vibe-design-spec.md` Section 5
+   - ถ้า component หายไป — propose แต่ document why
 
 3. **Don't bloat their stack:**
-   - ห้าม introduce new dependency unless absolutely necessary
-   - Use what they have, even if it's slightly worse than what we'd pick fresh
-   - If we MUST add: document why, in handoff doc Section C
+   - ห้าม introduce new dependency เกินจำเป็น
+   - ใช้สิ่งที่เขามี แม้จะ slightly worse than fresh pick
+   - ถ้าจำเป็นต้องเพิ่ม: document ใน README + handoff doc Section C
+   - Get PM/client approval ถ้า new dep > minor
 
 4. **Tokens:**
-   - If they have a design system → use their tokens
-   - If they have CSS variables → use those
-   - If neither → propose minimal token layer, document
+   - ถ้ามี design system → ใช้ tokens ของเขา
+   - ถ้ามี CSS variables → ใช้ตามนั้น
+   - ถ้าไม่มี → propose minimal token layer ใน Stage 1, document
 
-**Risk areas to flag:**
-- Stack we've never used (e.g., obscure framework) → Stage 1 feasibility check
-- Client lib without good docs → time risk → document
-- Client demands stack that's deprecated → push back via PM (we own quality bar)
+**Risk areas to flag at Stage 1:**
+
+| Risk | Action |
+|---|---|
+| Stack ที่ Sellsuki ไม่เคยใช้ (obscure framework) | Feasibility check at Stage 1 |
+| Client library no good docs | Time risk → document in `project-card.md` Section 8 |
+| Client demands deprecated stack | Push back via PM — we own quality bar |
+| Client codebase legacy + tightly coupled | Propose isolated module/widget approach |
+| Client wants stack but no codebase | Confirm reason — may be misplaced preference |
+
+---
+
+## Option B — New Stack (Greenfield, Client Neutral)
+
+**When to use:**
+- ไม่มี existing codebase
+- Client OK กับ stack ที่ Sellsuki แนะนำ
+- Project standalone, no integration
+
+### Default modern stack (Sellsuki Project team preference)
+
+> นี่คือ **suggested defaults** — adapt ตาม project requirement
+
+| Layer | Default choice | Reason |
+|---|---|---|
+| **Framework** | Next.js (App Router) | SSR + static + API routes, mature, well-supported |
+| **Language** | TypeScript | Type safety, better AI vibe-code accuracy |
+| **Styling** | Tailwind CSS | Utility-first, fast, AI-friendly |
+| **Component primitives** | shadcn/ui หรือ Radix | Accessible, headless, copy-paste ownership |
+| **Forms** | react-hook-form + Zod | Validation + types |
+| **State** | useState / Zustand (if needed) | Simple → scale |
+| **Data fetching** | TanStack Query / native fetch | Cache + retry |
+| **Hosting** | Vercel (default) | Auto preview, simple |
+
+### Alternative stacks (per project type)
+
+| Project type | Recommended stack |
+|---|---|
+| Landing page / marketing | Next.js + Tailwind + Framer Motion |
+| Web app (SPA-ish) | Next.js / Vite + React + Tailwind |
+| Internal admin / dashboard | Next.js + Tailwind + shadcn/ui |
+| Mobile-first web | Next.js + Tailwind (mobile-optimized) |
+| Static content + form | Astro + Tailwind |
+| Real-time app | Next.js + Pusher / Ably / native WS |
+
+### Variant for non-React projects
+
+ถ้าลูกค้ามี preference อื่น:
+
+| Framework | Suggested companion stack |
+|---|---|
+| **Vue** | Nuxt + Tailwind + VueUse |
+| **Svelte** | SvelteKit + Tailwind |
+| **Angular** | Angular + Tailwind + Angular Material |
+| **Plain HTML/JS** | Vite + Tailwind + vanilla JS modules |
+
+---
+
+## Option C — Client mandates specific framework but no codebase
+
+**Scenario:** ลูกค้าบอก "ต้องใช้ Vue" หรือ "ต้องใช้ WordPress block" แต่ไม่มี existing code
+
+**Approach:**
+1. Confirm with PM ว่า requirement นี้ hard requirement หรือ preference
+2. ถ้า hard → adopt that framework + use modern companion (Tailwind + their ecosystem)
+3. ถ้า preference → present options + trade-off (e.g., "Vue ได้, แต่ team Sellsuki productive กว่าใน React — เลือกได้")
+4. Lock at Stage 1, document rationale
 
 ---
 
@@ -126,78 +134,129 @@
 
 | Situation | Rule |
 |---|---|
-| Mix DS1 + DS2 in same project | ❌ Never |
-| Mix DS + client stack in same project | ❌ Never (pick one) |
-| Mix DS2 brand variants | ❌ Never within one project |
-| Multi-project for one client, different stacks | ⚠ OK if rationale per project |
-| DS2 + tiny client utility (e.g., their fetch wrapper) | ✓ OK — utility ≠ component lib |
+| Mix multiple frameworks in single project | ❌ Never |
+| Mix client stack + Sellsuki picked stack | ❌ Pick one |
+| Add small utility lib to client's stack | ✓ OK if needed + documented |
+| Component lib + utility (Tailwind + shadcn) | ✓ Designed to coexist |
+| Pure CSS + utility framework | ⚠ Pick one approach |
 
 ---
 
-## Decision worksheet (use at Stage 1)
+## Decision worksheet (at Stage 1)
 
 | Question | Answer | Implication |
 |---|---|---|
-| Who maintains after handoff? | Client / Sellsuki / TBD | Client → favor client stack; Sellsuki → DS2 |
-| Existing codebase? | yes / no | yes → likely client stack |
-| Multi-framework need? | yes / no | yes → DS2 (Lit works everywhere) |
-| Special brand? | yes / no | yes → DS2 with brand variant |
-| Compliance / regulatory? | yes / no | yes → use most-audited stack (DS2 likely) |
-| Long-term commitment? | yes / no | yes → DS2; no → either |
-| Vibe-code productivity priority? | yes / no | yes → DS2 (best MCP support) |
+| Has client codebase project must integrate with? | yes / no | yes → Client stack |
+| Who maintains after handoff? | Client / Sellsuki / TBD | Client → favor their stack; Sellsuki → modern default |
+| Client framework preference? | specified / open / no preference | specified → match; open → recommend default |
+| Multi-page / single page / static? | — | drives framework choice |
+| SEO matters? | yes / no | yes → Next.js / Nuxt / Astro (SSR/SSG) |
+| Real-time / interactive heavy? | yes / no | yes → SPA-leaning |
+| Sellsuki team familiar with proposed stack? | yes / no | no → risk flag at Stage 1 |
+| Long-term project (months/years)? | yes / no | yes → stable, well-supported tech |
 
-After answering: pick stack, document rationale in `project-card.md` Section 4
+หลังตอบ: pick stack, document rationale ใน `project-card.md` Section 4
 
 ---
 
 ## After Stage 1: LOCKED
 
-Stack is **locked** after Stage 1. Changing mid-project = scope event:
+Stack lock หลัง Stage 1. เปลี่ยน mid-project = scope event:
 - Trigger scope conversation (Stage 5 rule)
 - Update timeline + cost
 - Re-baseline `project-card.md`
 
-ห้าม switch silently. If client requests change mid-project → escalate to Lead.
+ห้าม switch silently. Client request เปลี่ยน mid-project → escalate to Lead.
 
 ---
 
-## Stage 3 prompt snippet
+## Stage 3 prompt snippet examples
 
 When filling `templates/vibe-code-prompt.md`:
 
-**DS 1.0:**
+### Example A — Client's existing React stack
+
 ```
-STACK: DS 1.0
-→ Use `Sellsuki Design System` MCP.
-→ Call `get_brand_rules` first.
-→ `get_component` per component used.
+STACK: Client's existing React + their internal component library
+→ Reference: [their Storybook URL OR repo path /design-system]
+→ Read their conventions: file naming, folder structure, lint config
+→ Map design intent to their components per vibe-design-spec.md Section 5
+→ Do NOT add new dependencies unless approved
+→ Reuse their utility functions (look in /utils or /lib)
 ```
 
-**DS 2.0:**
+### Example B — Sellsuki picks default stack (greenfield)
+
 ```
-STACK: DS 2.0 (brand: patona)
-→ Use `Sellsuki Design System3` MCP.
-→ Call `get_brand_rules` with brand=patona first.
-→ `get_component` per ssk-* component.
-→ After generating: call `validate_usage`.
+STACK: Next.js (App Router) + TypeScript + Tailwind CSS + shadcn/ui
+→ Initialize: npx create-next-app + setup Tailwind + shadcn init
+→ Component primitives from shadcn/ui (copy into /components/ui)
+→ Forms: react-hook-form + Zod for validation
+→ State: useState by default, Zustand only if cross-component complexity
+→ Follow Next.js App Router conventions
 ```
 
-**Client stack:**
+### Example C — Client mandates Vue
+
 ```
-STACK: Client's React + [their library]
-→ Reference: [their Storybook URL / docs / repo path]
-→ Follow naming convention, lint config, folder structure of [path]
-→ Map our design intent to their components per `vibe-design-spec.md` Section 5
-→ Do NOT add dependencies unless documented + approved
+STACK: Vue 3 (Composition API) + Nuxt 3 + Tailwind CSS
+→ Use VueUse for composables
+→ Forms with vee-validate + Zod
+→ Follow Nuxt directory conventions
+→ Component library: client preference, fallback to PrimeVue if neutral
 ```
+
+---
+
+## How AI helps Stage 3 with project stacks
+
+Claude สามารถ generate code ใน stack ใดก็ตามที่ Stage 1 lock — ไม่ต้องมี MCP เฉพาะ:
+
+| Stack | AI strength | What to provide AI |
+|---|---|---|
+| React + Tailwind + shadcn | Very strong | Spec + standard patterns |
+| Next.js | Very strong | Spec + App Router knowledge |
+| Vue / Nuxt | Strong | Spec + Vue patterns |
+| Svelte | Moderate | Spec + extra examples |
+| Client's custom lib | Variable | Repo path + component docs + examples |
+| Obscure framework | Weak — risk | Confirm at Stage 1 feasibility |
+
+**Tip สำหรับ client stack:**
+- Show Claude a sample component from client's codebase ใน vibe-code prompt
+- Claude จะ pattern-match convention ได้ดีขึ้น
+- ถ้ามี Storybook URL → web_fetch ให้ Claude อ่าน
 
 ---
 
 ## Common Mistakes
 
-- ❌ Pick stack at Stage 2 instead of Stage 1 → wasted variants
-- ❌ Mix DS + client lib because "one component is missing"
-- ❌ Use Claude's memory for DS specifics — always call MCP `get_brand_rules`
-- ❌ Pick client stack without checking client's docs first → assumptions break in Stage 3
-- ❌ Skip `validate_usage` on DS2 → hardcoded tokens slip through
-- ❌ Add npm packages to client repo without note → bloat, maintenance pain
+- ❌ Pick stack at Stage 2/3 instead of Stage 1 → wasted variants/code
+- ❌ Mix client stack + "just adding React" because Sellsuki ถนัด → frankenstein codebase
+- ❌ Pick client stack without checking client's docs first → assumptions break ใน Stage 3
+- ❌ Add npm packages to client repo without approval → bloat, maintenance pain
+- ❌ Use unfamiliar stack without Stage 1 feasibility check → late discovery of blockers
+- ❌ Default to React/Next.js automatically — ดู client signal ก่อน
+- ❌ ใช้ Sellsuki DS 1.0/2.0 ใน project skill — DS เป็นของ Sellsuki internal product เท่านั้น
+
+---
+
+## Quick reference
+
+| Scenario | Stack |
+|---|---|
+| Client has React codebase | Their React stack |
+| Client has Vue codebase | Their Vue stack |
+| Client neutral, generic web | Next.js + TS + Tailwind + shadcn/ui |
+| Client neutral, marketing site | Next.js / Astro + Tailwind |
+| Client neutral, simple form | Vite + React + Tailwind |
+| Client mandate WordPress | WordPress block / theme stack |
+| Sellsuki internal product | ❌ ใช้ skill อื่น (sellsuki-product-standard) |
+
+---
+
+## See also
+
+- `references/project-sizing.md` — sizing affects stack complexity choice
+- `templates/project-card.md` Section 4 — where stack decision is recorded
+- `templates/vibe-code-prompt.md` — uses locked stack for code generation
+- `templates/handoff-doc.md` Section C — stack documented for handoff

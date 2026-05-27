@@ -21,7 +21,7 @@
 |---|---|---|---|
 | Q1 | Stack locked ที่ Stage 1 — ห้ามเปลี่ยน mid-project | unchanged through project | mid-project stack swap |
 | Q2 | ทุก screen ครบ 6 states (default, loading, empty, error, success, disabled) | ครบ | ขาด state |
-| Q3 | ใช้ component ของ stack ที่เลือก — ไม่ mix DS + custom | consistent | mixed |
+| Q3 | ใช้ component ของ stack ที่เลือก — ไม่ mix multiple component libraries | consistent | mixed (e.g., shadcn + Radix + raw HTML mixed randomly) |
 | Q4 | ใช้ token เท่านั้น — no hardcode color/size | clean | hardcoded values |
 | Q5 | Responsive ครบ mobile/tablet/desktop | spec'd ทุก breakpoint | skipped |
 | Q6 | Accessibility: WCAG AA, keyboard, ARIA | documented | ไม่ระบุ |
@@ -67,9 +67,9 @@
 
 | # | Rule | Pass | Fail |
 |---|---|---|---|
-| V1 | DS choice locked ที่ Stage 1 — ใน vibe code ใช้ตามนั้น | consistent | switched |
-| V2 | DS2: รัน `validate_usage` หลัง generate | passed | skipped |
-| V3 | Client stack: follow client's code convention | matched | inconsistent |
+| V1 | Stack locked ที่ Stage 1 — ใน vibe code ใช้ตามนั้น (client's stack หรือ modern choice — **ไม่ใช่ Sellsuki DS**) | consistent | switched / used DS |
+| V2 | Token / design variables เท่านั้น — ไม่ hardcode color/size/spacing | clean | hardcoded values |
+| V3 | Client stack: follow client's code convention + no unauthorized new deps | matched + minimal deps | inconsistent / bloated |
 | V4 | Mock data layer marked ชัด (`// TODO: BE-INTEGRATION`) | searchable | inline mock without marker |
 | V5 | README สมบูรณ์ — install / run / env / TODO | complete | placeholder README |
 

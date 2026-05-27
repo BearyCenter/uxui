@@ -85,9 +85,11 @@ Buffer: 2 days (for unforeseen UAT round)
 ## Stack decision (locked here)
 
 Stage 1 = **the gate** ที่ตัดสินใจ stack final:
-- DS 1.0 → React + Sellsuki DS1
-- DS 2.0 → ssk-* (pick brand variant: patona / ccs3 / oc2plus)
-- Client stack → React/Vue/etc + their component library
+- **Client's existing stack** → must integrate (read their codebase + conventions)
+- **Modern default** → Next.js + TypeScript + Tailwind CSS + shadcn/ui (greenfield, client neutral)
+- **Custom modern** → specific framework per project need (Nuxt, Astro, SvelteKit, Vite, etc.)
+
+> ⚠ **ห้ามใช้ Sellsuki DS 1.0 / DS 2.0** — DS เป็นของ Sellsuki internal product เท่านั้น (ใช้ skill `sellsuki-product-standard`)
 
 Decision recorded ใน `project-card.md` Section 4. After Stage 1, **lock — ห้ามเปลี่ยน** (unless major escalation)
 

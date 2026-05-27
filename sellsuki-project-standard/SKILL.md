@@ -1,6 +1,6 @@
 ---
 name: sellsuki-project-standard
-description: Sellsuki standard workflow for PROJECT track (client work, agency-style delivery) — Client Brief → PM Card → Research+Plan → Vibe Design → Vibe Code → Deploy → Test & Improve → Handoff. ALWAYS trigger this skill when a PM forwards a client brief or requirement, when phrases like "ลูกค้าส่งมา", "PM ส่ง brief", "เริ่ม project ใหม่", "client requirement", "วาง plan ให้ลูกค้า", "deploy ให้ดู", "ส่งงานลูกค้า", or "handoff" appear, or when a client/project name (non-Sellsuki internal) is mentioned with delivery intent. Also trigger for vibe design, vibe code, staging deploy, client UAT, or design handoff requests in a non-internal context. Do NOT confuse with sellsuki-product-standard (internal product work via Jira) — Project work comes from external clients via PM, not from internal PO via Jira. This skill orchestrates the full Client-Brief-to-Handoff pipeline with explicit deploy and handoff stages, and leaves hooks for future Backend and QA phases (currently out of scope, design team hands off after final improve).
+description: Sellsuki standard workflow for PROJECT track (client work, agency-style delivery) — Client Brief → PM Card → Research+Plan → Vibe Design → Vibe Code → Deploy → Test & Improve → Handoff. ALWAYS trigger this skill when a PM forwards a client brief or requirement, when phrases like "ลูกค้าส่งมา", "PM ส่ง brief", "เริ่ม project ใหม่", "client requirement", "วาง plan ให้ลูกค้า", "deploy ให้ดู", "ส่งงานลูกค้า", or "handoff" appear, or when a client/project name (non-Sellsuki internal) is mentioned with delivery intent. Also trigger for vibe design, vibe code, staging deploy, client UAT, or design handoff requests in a non-internal context. Do NOT confuse with sellsuki-product-standard (internal Sellsuki product work via Jira, uses Sellsuki DS 1.0/2.0) — Project work comes from external clients via PM, uses client's stack or modern framework choice, never Sellsuki DS. This skill orchestrates the full Client-Brief-to-Handoff pipeline with explicit deploy and handoff stages, and leaves hooks for future Backend and QA phases (currently out of scope, design team hands off after final improve).
 ---
 
 # Sellsuki Project Standard
@@ -69,7 +69,7 @@ User can interrupt with "skip", "deep-dive on N", "redo N", "client wants change
 | Trigger | Jira card | PM brief (unstructured) |
 | Iteration model | Loop forever (Stage 5 → 0) | Linear with hard stop at handoff |
 | Stakeholder gates | Internal lead approve | Client UAT + sign-off |
-| Tech stack | Sellsuki DS1/DS2 mandatory | DS1/DS2 *or* client's stack |
+| Tech stack | Sellsuki DS 1.0 / DS 2.0 (mandatory) | Client's stack OR modern framework choice (never DS 1.0/2.0) |
 | End state | Live in production, measured | Deployed, signed off, handed off |
 | AI Usability | Required (M/L card) | Optional — client UAT replaces it |
 | Deploy stage | Implicit (in vibe code) | Explicit (Stage 4) |
@@ -94,7 +94,7 @@ After parsing the brief, Claude posts:
 ```
 📋 Project: [client] — [project name]
 🏷  Tier: M-size / 2 weeks / Client UAT every 3 days
-🛠  Stack: React + DS 2.0 (patona) — to be confirmed at Stage 1
+🛠  Stack: Next.js + TS + Tailwind + shadcn/ui (greenfield, modern default) — to be confirmed at Stage 1
 🎯 Objective: [1 บรรทัด]
 
 แผนการรัน:
@@ -151,7 +151,7 @@ sellsuki-project-standard/
 └── references/
     ├── client-brief-parsing.md      Extract requirements from messy PM brief
     ├── project-sizing.md            S/M/L/Enterprise classification
-    ├── tech-stack-guide.md          DS1/DS2 vs client stack decision
+    ├── tech-stack-guide.md          Client stack vs modern framework choice
     ├── client-comm-templates.md     How to ask client at checkpoints
     └── handoff-extension-plan.md    Future BE/QA phase hooks
 ```
@@ -169,7 +169,7 @@ Non-negotiable across stages:
 5. **Improvement budget is finite** — set UAT round limit upfront; overage triggers scope conversation
 6. **Handoff is shippable** — design doc + code + access in one bundle, client can act on it without follow-up
 7. **Future BE/QA hooks must be present** — handoff doc has placeholder sections so future phases plug in
-8. **Track stack consistency** — pick DS1/DS2/client-stack at Stage 1 and lock it; don't mix during the project
+8. **Track stack consistency** — pick stack (client's or modern default) at Stage 1 and lock it; don't mix during the project. Never use Sellsuki DS 1.0/2.0 in project track (those are for internal Sellsuki product only)
 
 Full Level 1 rules: `rules/standard-team.md`. Level 2: `rules/standard-master.md`.
 

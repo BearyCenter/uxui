@@ -67,15 +67,25 @@
 ## Section 4 — Tech Stack (locked at Stage 1)
 
 **Stack choice:**
-- [ ] DS 1.0 (React + Sellsuki DS1)
-- [ ] DS 2.0 — brand variant: `patona / ccs3 / oc2plus`
-- [ ] Client's stack: `[describe]`
+- [ ] **Client's existing stack** — must integrate with their codebase
+  - Describe: `[framework + component library + key dependencies]`
+  - Repo / docs reference: `[link]`
+- [ ] **Modern default** (greenfield, client neutral): Next.js + TypeScript + Tailwind CSS + shadcn/ui
+- [ ] **Custom modern stack** (specific project need):
+  - Framework: `[Next.js / Nuxt / Astro / Vite / SvelteKit / etc.]`
+  - Language: `[TypeScript / JavaScript]`
+  - Styling: `[Tailwind / CSS Modules / styled-components / other]`
+  - Component primitives: `[shadcn/ui / Radix / Headless UI / PrimeVue / other]`
+  - Other key deps: `[forms, state, data fetching, etc.]`
+
+> ⚠ **ห้ามใช้ Sellsuki DS 1.0 / DS 2.0** ใน project track — DS เป็นของ Sellsuki internal product เท่านั้น (ใช้ skill `sellsuki-product-standard`)
 
 **Rationale:**
-`[อ้าง references/tech-stack-guide.md]`
+`[1-2 บรรทัด — อ้าง references/tech-stack-guide.md]`
 
 **Deploy target:**
-- [ ] Vercel/Netlify (Sellsuki)
+- [ ] Vercel (default)
+- [ ] Netlify
 - [ ] Sellsuki cloud
 - [ ] Client infrastructure
 - [ ] Other: `[describe]`

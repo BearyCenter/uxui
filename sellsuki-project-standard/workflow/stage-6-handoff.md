@@ -40,7 +40,7 @@
 - Sign-off reference
 
 **Section B — Design**
-- Design system used (DS1/DS2/client stack) + reason
+- Stack used (Client's / Modern default / Custom modern) + reason
 - Style tokens (color, typography, spacing)
 - Component inventory + variant usage
 - Design files (Figma link, artifact links)
